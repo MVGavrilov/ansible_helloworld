@@ -1,0 +1,19 @@
+---
+- name: Stop Docker Containers
+  become: yes
+  become_user: root
+  command: docker stop "{{ item.name }}"
+  with_items: "{{ dock_cfg }}"
+  ignore_errors: yes
+
+- name: Remove Docker Containers
+  become: yes
+  become_user: root
+  command: docker rm "{{ item.name }}"
+  with_items: "{{ dock_cfg }}"
+  ignore_errors: yes
+
+- name: Stop Nginx
+  become: yes
+  become_user: root
+  service: name=nginx state=stopped

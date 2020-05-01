@@ -1,0 +1,21 @@
+---
+# tasks file for test
+  - name: Docker HTML Copy
+    template: src=index.html dest=/home/admin/docker/{{ item.name }}
+    with_items: "{{ dock_cfg }}"
+
+  - name: Start Docker Containers
+    become: yes
+    become_user: root
+    command: docker run -d --name "{{ item.name }}" -p "{{ item.port }}":80 -v /home/admin/docker/{{ item.name }}:/usr/share/nginx/html:ro nginx:latest
+    with_items: "{{ dock_cfg }}"
+
+  - name: Nginx Config
+    become: yes
+    become_user: root
+    template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+  - name: Nginx Start    
+    become: yes
+    become_user: root
+    service: name=nginx state=restarted

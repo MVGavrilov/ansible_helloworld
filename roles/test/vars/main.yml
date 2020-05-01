@@ -1,0 +1,6 @@
+---
+# vars file for test
+dock_cfg:
+  - {name: first_dock, port: 8081}
+  - {name: second_dock, port: 8082}
+  - {name: third_dock, port: 8083}
